@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flm
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: swiggy
+  template:
+    metadata:
+      name: mypod
+      labels:
+        app: swiggy
+    spec:
+      containers:
+        - name: cont1
+          image: nginx
+
+        - name: cont2
+          image: httpd
+          command: ["/bin/bash","-c","while true; do echo Happy Pongal; sleep 10; done"]
