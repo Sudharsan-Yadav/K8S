@@ -1,0 +1,20 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: mydb
+spec:
+  selector:
+    matchLabels:
+      app: spy
+  template:
+    metadata:
+      name: mypod
+      labels:
+        app: spy
+    spec:
+      containers:
+        - name: mycont
+          image: shaikmustafa/paytm:movie
+          ports:
+            - containerPort: 80
