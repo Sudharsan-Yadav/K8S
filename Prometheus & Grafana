@@ -1,0 +1,29 @@
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/high-availability-1.21+.yaml
+
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4
+chmod 700 get_helm.sh
+./get_helm.sh
+
+kubectl create ns prometheus
+
+kubectl create ns grafana
+
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+helm repo add grafana https://grafana.github.io/helm-charts
+
+helm install prometheus prometheus-community/prometheus \
+  --namespace prometheus \
+  --set alertmanager.persistentVolume.storageClass="gp2" \
+  --set server.persistentVolume.storageClass="gp2"
+
+helm install grafana grafana/grafana \
+  --namespace grafana \
+  --set persistence.storageClassName="gp2" \
+  --set persistence.enabled=true \
+  --set adminPassword='EKS!sAWSome' \
+  --set service.type=LoadBalancer
+
+kubectl get secret --namespace grafana grafana -o jsonpath="{.data.admin-password}" | base64 --decode; echo
+
+http://prometheus-server.prometheus.svc.cluster.local/
