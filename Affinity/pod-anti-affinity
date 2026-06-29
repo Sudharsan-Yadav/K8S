@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: podantiaffinity-pod
+  labels:
+    app: logs
+spec:
+  containers:
+    - name: cont1
+      image: nginx
+      ports:
+       - containerPort: 80
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app: db
+          topologyKey: kubernetes.io/hostname
