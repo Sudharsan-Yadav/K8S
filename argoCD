@@ -1,0 +1,17 @@
+export KOPS_STATE_STORE=s3://krishna.2026
+kops create cluster --name sudhan.k8s.local --zones us-east-2a,us-east-2b,us-east-2c --master-size m7i-flex.large --master-count 1 --master-volume-size 30 --node-size c7i-flex.large --node-count 3 --node-volume-size 20 --image=ami-0eab37cfdc33e8e65
+kops update cluster --name sudhan.k8s.local --yes --admin
+
+kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+argoCD CLI:
+
+curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+rm argocd-linux-amd64
+
+kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+
+argoCD Password:
+
+argocd admin initial-password -n argocd 
