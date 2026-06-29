@@ -1,0 +1,3 @@
+openssl genrsa -out mustafa.key 2048
+openssl req -new -key mustafa.key -out mustafa.csr -subj "/CN=sudhan/O=group1"
+openssl x509 -req -in mustafa.csr -CA ~/.minikube/ca.crt -CAkey ~/.minikube/ca.key -CAcreateserial -out mustafa.crt -days 500
