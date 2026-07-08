@@ -1,0 +1,15 @@
+curl -L https://istio.io/downloadIstio | sh -
+
+cd istio-1.30.2
+
+export PATH=$PWD/bin:$PATH
+
+istioctl version
+
+kubectl label ns default istio-injection=enabled
+
+istioctl install --set profile=demo -y
+
+kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+
+kubectl patch svc productpage -p '{"spec":{"type":"LoadBalancer"}}'
