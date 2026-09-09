@@ -4,10 +4,26 @@ docker version
 
 docker build -t flashman .
 
-docker tag
+docker images
+
+docker tag flashman sudharsan06122000/flashman:flashman1.0
 
 docker login
 
 Create a private repository in the dockerhub(flashman)
 
-docker push
+docker push sudharsan06122000/flashman:flashman1.0
+
+kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=sudharsan06122000 --docker-password=Karaikudi@12345
+
+kubectl create -f pod.yml
+
+kubectl get po
+
+kubectl exec -it pod1 -- bash
+
+printenv
+
+ls /usr/share/nginx/html/
+
+exit
