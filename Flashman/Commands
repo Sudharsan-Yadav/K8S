@@ -1,0 +1,13 @@
+yum install docker -y && systemctl start docker
+
+docker version
+
+docker build -t flashman .
+
+docker tag
+
+docker login
+
+Create a private repository in the dockerhub(flashman)
+
+docker push
