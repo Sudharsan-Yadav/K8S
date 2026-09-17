@@ -15,3 +15,24 @@ spec:
            image: nginx
            command: ["/bin/bash","-c","sudo apt update -y; sleep 20"]
       restartPolicy: Never
+
+
+--------------------------------------------------------------------------------------
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: testjob
+spec:
+  template:
+    metadata:
+      name: mypod
+      labels:
+        env: test
+    spec:
+      containers:
+         - name: mycont
+           image: nginx
+           command: ["/bin/bash","-c","sudo apt update -y; sleep 20"]
+      restartPolicy: OnFailure
